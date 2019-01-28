@@ -1,7 +1,5 @@
 <?php
 
-
-
 // Classe qui se charge uniquement d'initialiser les autres classe (tous les objets 'chiants' de notre Espace Membre)
 class App{
     
@@ -42,10 +40,14 @@ class App{
      */
     static function getAuth(){
         // On instancie la class Auth.php (qui permet la gestion de l'authentification) avec en param1 le session actuelle, et param2 un message flash personnalisé
-        return new Auth(Session::getInstance(), ['restriction_msg' => "Session vide, aucun utilisateur de connecté !"]);
+        return new Auth(Session::getInstance(), ['restriction_msg' => "Session vide, aucun utilisateur n'est connecté !"]);
     }
 
-    
+    /**
+     * Permet de récupérer un utilisateur connecté
+     *
+     * @return object
+     */
     static function getUser(){
         return new User(Session::getInstance());
     }

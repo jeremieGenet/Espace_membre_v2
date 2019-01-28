@@ -2,7 +2,7 @@
 
 class Validator{
 
-    private $data; // $data représentera les données réçues ($_POST pour un formulaire par exemple)
+    private $data; // $data représentera les données réçues (soit '$_POST' pour un formulaire par exemple)
     private $errors = []; // représentera le tableau des erreurs (vérification des champs du formulaire)
     
     public function __construct($data)
@@ -37,17 +37,17 @@ class Validator{
     /**
      * Permet de vérifié si un champ est déjà présent dans la bdd
      *
-     * @param string $field
-     * @param object $db
+     * @param string $field (champ tapé par l'utilisateur)
+     * @param object $db 
      * @param string $tableName
      * @param array $errorMsg
      * @return boolean
      */
     public function isUnique($field, $db, $tableName, $errorMsg){
-        // On récup les noms dans la bdd, qui on le même nom que celui tapé dans le champ username
+        // On récup l'id correspondant au champ tapé par l'utilisateur (dans le but de savoir s'il existe)
         $record = $db->queryClass("SELECT id FROM $tableName WHERE $field = ?", [$this->getField($field)])->fetch(); 
 
-        // Si il y a bien un username dans la bdd qui est le même que celui taper dans le champ username alors...
+        // Si il y a bien un id dans la bdd qui correspond au champ tapé par l'utilisateur alors..
         if($record){
             $this->errors[$field] = $errorMsg;
         }
@@ -74,13 +74,11 @@ class Validator{
      * @param array $errorMsg2 (par défaut le message d'erreur est vide)
      * @return void
      */
-    public function isConfirmed($field, $errorMsg = "", $errorMsg2= ""){
-        // Si le mot de passe est vide alors...
-        if(empty($this->getField($field))){
-            $this->errors[$field] = $errorMsg;
+    public function isConfirmed($field, $errorMsg){
+        
         // Si le password tapé est différent de la confirmation de password alors...
-        }elseif($this->getField($field) != $this->getField($field . '2')){ // on concatène $fiel qui vaut 'mdp' à '2' pour obtenir 'mdp2' et ainsi pouvoir les comparer
-            $this->errors[$field] = $errorMsg2;
+        if($this->getField($field) != $this->getField($field . '2')){ // on concatène $fiel qui vaut 'mdp' à '2' pour obtenir 'mdp2' et ainsi pouvoir les comparer
+            $this->errors[$field] = $errorMsg;
         }
     }
 

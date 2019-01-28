@@ -7,18 +7,37 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+        <?php
+            /*
+            $paths = [
+                $title,
+                $style_bootstrap, 
+                $fontawesome_cdn, 
+                $monStyle, $linkHome, 
+                $linkLogin, $linkLogout, 
+                $linkRegister, $JsJquery, 
+                $JsPopper, 
+                $JsBootstrap
+            ];
+            */
+            //require 'inc/autoLoader.php';
+            //$path = new Path();
+
+        ?>
+
         <!-- TITRE DYNAMYQUE -->
+        <!-- $path est un objet de la classe Path.php, instancié dans le controller  -->
         <title>
-            <?= $title ?> 
+            <?= $path->getTitle() ?> 
         </title>
 
         <!-- STYLES DU SITE (chemin dynamique)-->
-        <!-- Style Bootstrap -->
-        <link rel="stylesheet" href="<?= $style_bootstrap ?>">
+        <!-- Style Bootstrap   $style_bootstrap  -->
+        <link rel="stylesheet" href="<?= $path->getBootstrap() ?>">
         <!-- Fontawesome en cdn -->
-        <link rel="stylesheet" href="<?= $fontawesome_cdn ?>">
+        <link rel="stylesheet" href="<?= $path->getFontawesome_cdn() ?>">
         <!-- Mon style Css-->
-        <link rel="stylesheet" href="<?= $monStyle ?>">
+        <link rel="stylesheet" href="<?= $path->getMonStyle() ?>">
 
     </head>
 
@@ -36,25 +55,32 @@
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
                             <!--<a class="nav-link" href="index.php">Accueil <span class="sr-only">(current)</span></a>-->
-                            <a class="nav-link" href="<?= $linkHome ?>">Accueil <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="<?= $path->getLinkHome() ?>">Accueil <span class="sr-only">(current)</span></a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
                         <!-- Si un utilisateur est connecté alors... -->
                         <?php if(isset($_SESSION['infoUser'])): ?>
                             <li class="nav-item">
-                                <!--<a href="index.php?espace_membre=logout" class="nav-link">Déconnexion</a> -->
-                                <a href="<?= $linkLogout ?>" class="nav-link">Déconnexion</a> 
+                                <a href="<?= $path->getLinkLogout() ?>" class="nav-link">
+                                    Déconnexion
+                                </a> 
+                            </li>
+                            <li class="nav-item">
+                                <!-- Nom de l'utilisateur -->
+                                <a href="<?= $path->getLinkAccount() ?>" class="nav-link bg-success">
+                                    <?= $_SESSION['infoUser']->username ?> est connecté !
+                                </a>  
                             </li>
                         <!-- sinon si l'utilisateur n'est pas connecté alors... -->
                         <?php else: ?>
                             <li class="nav-item">
                                  <!--<a href="index.php?espace_membre=register" class="nav-link">Inscription</a>-->
-                                <a href="<?= $linkRegister ?>" class="nav-link">Inscription</a>
+                                <a href="<?= $path->getLinkRegister() ?>" class="nav-link">Inscription</a>
                             </li>
                             <li class="nav-item">
                                  <!--<a href="index.php?espace_membre=connect" class="nav-link">Connexion</a> -->
-                                <a href="<?= $linkLogin ?>" class="nav-link">Connexion</a> 
+                                <a href="<?= $path->getLinkLogin() ?>" class="nav-link">Connexion</a> 
                             </li>
                             
                         <?php endif; ?>
@@ -65,8 +91,17 @@
         </header>
 
         <!-- Debug session utilisateur (affichage) -->
-        <?php var_dump($_SESSION); ?>
-        <?= var_dump($_SESSION['flash']); ?>
+        <?php 
+            if(isset($_SESSION)){
+                var_dump($_SESSION);
+            }
+            if(isset($_SESSION['flash'])){
+                var_dump($_SESSION['flash']);
+            }
+            if(isset($_SESSION['infoUser'])){
+                var_dump($_SESSION['infoUser']);
+            }
+        ?>
 
         <!-- CONTENU DU SITE -->
         <div class="container">
@@ -96,13 +131,13 @@
 
         <!-- FOOTER DE L'ENSEMBLE DES PAGES DE L'ESPACE MEMBRES -->
         <footer class="mt-5 bg-primary py-5 text-center">
-            <p>Copyright Espace_Membres3 !</p>
+            <p>Copyright Espace_Membres !</p>
         </footer>
 
         <!-- Les 3 scripts suivants servent au fonctionnement de bootstrap (chemin dynamique)-->
-        <script src="<?= $JsJquery ?>"></script>
-        <script src="<?= $JsPopper ?>"></script>
-        <script src="<?= $JsBootstrap ?>"></script>
+        <script src="<?= $path->jsJquery() ?>"></script>
+        <script src="<?= $path->jsPopper() ?>"></script>
+        <script src="<?= $path->jsBootstrap() ?>"></script>
 
     </body>
 

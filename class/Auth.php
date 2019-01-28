@@ -51,7 +51,7 @@ class Auth{
             ENVOIE D'UN EMAIL A L'UTILISATEUR POUR CONFIRMER LA CREATION DE SON COMPTE (ne fonctionne pas en local)
             Envoie du mail (qui envoie sur la page confirm.php avec le token qui lui a été envoyé)
         */
-        // mail($_POST['email'], 'Confirmation de votre compte', "Afin de confirmer votre compte, merci de cliquer sur ce lien\n\nhttp://localhost/Espace_Membre3/confirm.php?id=". $user_id . "&token=$token", $header);
+        // mail($_POST['email'], 'Confirmation de votre compte', "Afin de confirmer votre compte, merci de cliquer sur ce lien\n\nhttp://localhost/Espace_Membre3/index.php?espace_membre=confirm&id=". $user_id . "&token=$token", $header);
     }
 
 
@@ -68,8 +68,6 @@ class Auth{
         // queryClass() permet via la classe DataBase de faire des requêtes à la bdd 
         $user = $db->queryClass('SELECT * FROM users WHERE id = ?', [$user_id])->fetch(); // On sélectionne tout (via l'id de l'utilisateur dans l'url)
         // On récup le token de l'utilisateur dont on a récup l'id dans l'url (retounera false si le token n'est pas le même que celui de la bdd)
-
-        //die();
         // Si $user vaut true (c'est que le confirmation_token a été trouvé dans la bdd) et que le $token de l'url est le même que le confirmation_token alors...
         if($user && $user->confirmation_token == $token){
             
@@ -102,7 +100,7 @@ class Auth{
         if(!$this->session->read('infoUser')){ 
             // le "$this->options_msg['restriction_msg']" correspond à un message pré-défini de notre classe Auth.php (voir l'attribut $options_msg de la classe)
             $this->session->setFlash('danger', $this->options_msg['restriction_msg']); 
-            header('location: login.php');
+            header('location: index.php?espace_membre=login');
             exit(); // On stop le script !
         }
     }
@@ -244,7 +242,7 @@ class Auth{
 
             // Message de succès et redirection
             $_SESSION['flash']['success'] = 'Les instructions pour récupérer votre mot de passe vous ont été envoyées sur votre adresse email!';
-            header('location: login.php'); // On dirige vers la page du compte utilisateur
+            header('location: index.php?espace_membre=login'); // On dirige vers la page du compte utilisateur
 
             // CONFIGURATION DE L'ENCODAGE DU MAIL DE RECUPERATION
             $header="MIME-Version: 1.0\r\n"; // Version d'encodage du mail
@@ -266,7 +264,7 @@ class Auth{
     }
 
     /**
-     * Permet
+     * Permet de récup les info sur l'utilisateur qui veut changer de mot de passe (retourne l'utilisateur si la req est ok, sinon retourne false)
      *
      * @param [type] $db
      * @param [type] $user_id
@@ -275,11 +273,16 @@ class Auth{
      */
     public function checkResetToken($db, $user_id, $token){
 
-        // Explication: on récup l'id et le token de l'url, et la date de reset du mot de passe (reset_at) mais il faut que cette date soit supérieur 
+        // Explication: on récup l'utilisateur qui possède l'id et le token de l'url, et la date de reset du mot de passe (reset_at) mais il faut que cette date soit supérieur 
         // à la date du jour à laquel on retranche 30 minutes (date_sub() permet de soustraire une durée à un objet DateTime, soit on soustrait 30 min à NOW() qui est aujourd'hui)
         $user = $db->queryClass('SELECT * FROM users WHERE id = ? AND reset_token = ? AND reset_at > DATE_SUB(NOW(), INTERVAL 30 MINUTE)', [$user_id, $token])->fetch();
 
-        return $user;
+        // Si la req est ok retourne l'utilisateur sinon retourne false
+        if($user){
+            return $user;
+        }
+        return false;
+        
     }
 
 

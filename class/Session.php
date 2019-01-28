@@ -27,20 +27,18 @@ class Session{
         }
         // Et on retourne l'instance stockée
         return self::$instance;
-        
     }
 
     /**
      * Permet de créé un message flash qui sera stocké dans la session globlal ($_SESSION)
      *
-     * @param [type] $key
-     * @param [type] $message
+     * @param [type] $key (danger, success, warning)
+     * @param [type] $message (le message d'erreur)
      * @return void
      */
     public function setFlash($key, $message){
         $_SESSION['flash'][$key] = $message;
     }
-
 
     /**
      * Permet de déterminer si il y a ou non des messages flash (true s'il y en a, false si il n'y en a pas)
@@ -77,7 +75,6 @@ class Session{
         $_SESSION[$key] = $value;
     }
 
-
     /**
      * Permet de lire les informations de la session
      *
@@ -91,7 +88,6 @@ class Session{
         }else{
             return null;
         }
-        
     }
 
     /**

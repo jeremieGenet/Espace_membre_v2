@@ -7,62 +7,77 @@
 */
 
 
-require('controller/controller.php'); // Contient les fonctions
+require('controller/espace_membreController.php'); // Contient les fonctions utilisées ici
 
-try{ // On essaie de faire des choses (et si on se retrouve dans dans un 'throw new Exception' alors le code s'arrête pour aller directement dans le bloc 'catch' et afficher l'erreur)
-    if(isset($_GET['espace_membre'])){
+if(isset($_GET['espace_membre'])){
+    
+    // GESTION DE L'ENREGISTREMENT UTILISATEUR (formulaire d'enregistrement)
+    if($_GET['espace_membre'] == 'register'){
         
-        if($_GET['espace_membre'] == 'register'){
-            
-            if(!empty($_POST)){
-                registerUser($_POST['username'], $_POST['email'], $_POST['mdp'], $_POST['mdp2']);  
-            }
-            require('register.php');
-            
-
-        }elseif($_GET['espace_membre'] == 'login'){
-
-            if(!empty($_POST)){
-                loginUser($_POST['username'], $_POST['mdp']);  
-            }
-            require('view/front_end/login.php');
-
-        }elseif($_GET['espace_membre'] == 'confirm'){
-            if(isset($_GET['id']) && isset($_GET['token_confirmation'])){
-                confirmUser($_GET['id'], $_GET['token_confirmation']);
-            }
-
-            // lien reçu par l'utilisateur (après son enregistrement) pour tester la confirmation de compte (id et confirmation_token récup dans la bdd de l'utilisateur )
-            // http://localhost/Espace_Membre_v1/index.php?id=47&token_confirmation=2qf60DUYR3U49V7DoNOmzxSgyNJwO0cmY0qKsDL9XVZ9vLNcPJaDowcdv726
-            
-            
-        }elseif($_GET['espace_membre'] == 'account'){
-            //
-            //accountUser();
-            require('view/front_end/account.php');
-        }elseif(isset($_GET['reset'])){
-            //
-            resetPasswordUser();
-        }elseif(isset($_GET['forget'])){
-            //
-            forgetPasswordUser();
-        }elseif(isset($_GET['login'])){
-            //
-            loginUser();
-        }elseif(isset($_GET['logout'])){
-            //
-            logoutUser();
+        // Si le  formulaire n'est pas vide alors...
+        if(!empty($_POST)){
+            registerUser();
         }
-    }else{
-        // Si il n'y a pas de variable dans l'url on affiche la page d'accueil
-        //home();
-        require('register.php');
+        displayRegister(); // Affiche la page d'enregistrement
+    
+    // GESTION DE LA CONNEXION UTILISATEUR (formulaire de connexion)
+    }elseif($_GET['espace_membre'] == 'login'){
+
+        if(!empty($_POST)){
+            loginUser();
+        }
+        loginUser(); // Envoie à la page pour se connecter
+
+    // GESTION DE LA CONFIRMATION DE CREATION DE COMPTE UTILISATEUR (envoie d'un mail avec lien pour créer son compte)
+    }elseif($_GET['espace_membre'] == 'confirm'){
+
+        if(isset($_GET['id']) && isset($_GET['token'])){
+            confirmUser();
+        }
+        // lien reçu par l'utilisateur (après son enregistrement) pour tester la confirmation de compte (id et confirmation_token récup dans la bdd de l'utilisateur)
+        // POUR TESTER :
+        // http://localhost/Espace_membre_v2/index.php?espace_membre=confirm&id=95&token=UoVML8iqtOnlBdSzpwcny1q2xNFOWObWBdp5lnx7ULAd0ERH1MZituOHp3Pn
+        
+    // GESTION DU COMPTE DE L'UTILISATEUR  (formulaire de changement de mot de passe et +++++++++++++++++++ à venir)
+    }elseif($_GET['espace_membre'] == 'account'){
+
+        if(!empty($_POST)){
+            accountUser();
+        }
+        displayAccount();
+
+    // GESTION DE LA REINITIALISATION DE SON MOT DE PASSE (lien 'mot de passe oublié' dans le formulaire de connexion) 
+    // (envoie d'un mail avec lien qui dirige sur un formulaire de réinitialisation de son mot de passe)
+    }elseif($_GET['espace_membre'] == 'reset'){
+
+        // Si il y a les variables 'id' et 'token_reset' alors...
+        if(isset($_GET['id']) && isset($_GET['token_reset'])){
+            // POUR TESTER :
+            // http://localhost/Espace_membre_v2/index.php?espace_membre=reset&id=95&token_reset=FirQ4Yu4yrwhlS4fgG9iZEDZzTE5qaNgDVaPgz9TeYiG7gZc26WTs2tnfkAe
+            resetPasswordUser();
+        }else{
+            displayLogin(); // On redirige vers la page de connexion
+        }
+        displayResetPassword();
+
+    // GESTION DU MOT DE PASSE OUBLIE (formulaire de demander de reset mot de passe via son adresse email)
+    }elseif($_GET['espace_membre'] == 'forget'){
+
+        if(!empty($_POST) && !empty($_POST['email'])){
+            forgetPasswordUser();
+        }
+        displayForgetPassword();
+
+    // GESTION DE LA DECONNEXION UTILISATEUR
+    }elseif($_GET['espace_membre'] == 'logout'){
+        //
+        logoutUser();
     }
+}else{
+    // Si il n'y a pas de variable dans l'url on affiche la page d'accueil
+    home();
 }
-catch(Exception $e){ // S'il y a eu une erreur, alors...
-    $errorMessage = $e->getMessage(); // On stock le message d'erreur dans '$errorMessage'
-    require('view/front_end/errorView.php');  // On appel le fichier qui représente la "vue" de l'erreur
-}
+
 
 
 
