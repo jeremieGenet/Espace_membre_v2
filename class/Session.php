@@ -1,10 +1,11 @@
 <?php
 
+namespace jeremie;
+
 // Permet de gérer la connexion à la session les messages flashes, l'enregistrement de nouvelle info dans la session...
 class Session{
 
     static $instance = null; // Permettra de sauvegarder l'instance de la session qui est déjà chargée (null par défaut)
-
 
     // Attention si une classe possède un constructeur sans paramètre (comme ici), alors la classe ne peut être instanciée qu'un fois (sinon comment différencier les différentes instance?)
     // Et justement, il est important que cette classe se soit pas instancié plusieurs fois dans un même fichier (un session_start() ne peut être présent plusieurs fois, sous peine d'erreur)

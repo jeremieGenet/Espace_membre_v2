@@ -1,5 +1,7 @@
 <?php
 
+namespace jeremie;
+
 class Str{
 
     // Permet de génèrer un token (une chaine de caractères est sa longueur vaudra $length)

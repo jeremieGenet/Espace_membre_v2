@@ -1,5 +1,7 @@
 <?php
 
+namespace jeremie;
+
 class Validator{
 
     private $data; // $data représentera les données réçues (soit '$_POST' pour un formulaire par exemple)

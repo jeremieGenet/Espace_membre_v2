@@ -4,12 +4,20 @@
     Fichier appelé par le routeur (index.php)
 */
 
-// Chargement des classes
-//require 'class/Autoloader.php';
-//\jam\Autoloader::registerClass();
+// On déclare nos classes dans leurs namespace
+use jeremie\Autoloader;
+use jeremie\Path;
+use jeremie\Session;
+use jeremie\App;
+use jeremie\Validator;
 
-require 'inc/autoloader.php';
 
+// On charge est on appel l'autoloader (qui va charger les classes utilisées)
+require 'class/Autoloader.php';
+Autoloader::register();
+
+
+// On crée une nouvelle session
 Session::getInstance();
 
 
@@ -102,15 +110,10 @@ function displayLogin(){
 function loginUser(){
 
     $path = new Path("Se connecter"); // On instancie Path.php avec en param le titre du template (balise title dynamique)
-    
-    
-    require_once 'inc/autoLoader.php'; // Permet de charger les classe utilisées dans ce dossier
 
     $auth = App::getAuth(); // On crée un nouvelle instance de Auth.php (gestionnaire d'identification)
     $db = App::getDatabase(); // On recup la bdd
     $auth->connectFromCookie($db); // Permet de se connecté à la session si il existe le cookie nommé "remember"
-
-
 
     // Si un utilisateur est déjà connecté alors... (REDIRECTION, un utilisateur connecté n'a pas besoin de se connecté)
     if($auth->isConnected()){
@@ -143,7 +146,7 @@ function loginUser(){
 function confirmUser(){
     
     /**********************************************************************************************************************************************/
-    /****** PAGE DE TRAITEMENT DE LA CONFIRMATION DE CREATION DE COMPTE DE L'UTILISATEUR (mail reçu lors de la création de son compte) ***********/
+    /****** TRAITEMENT DE LA CONFIRMATION DE CREATION DE COMPTE DE L'UTILISATEUR (mail reçu lors de la création de son compte) ***********/
     /********************************************************************************************************************************************/
     /*
                     

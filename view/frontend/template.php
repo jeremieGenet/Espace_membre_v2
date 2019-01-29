@@ -68,7 +68,7 @@
                             </li>
                             <li class="nav-item">
                                 <!-- Nom de l'utilisateur -->
-                                <a href="<?= $path->getLinkAccount() ?>" class="nav-link bg-success">
+                                <a href="" class="nav-link bg-success">
                                     <?= $_SESSION['infoUser']->username ?> est connecté !
                                 </a>  
                             </li>

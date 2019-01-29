@@ -1,5 +1,7 @@
 <?php
 
+namespace jeremie;
+
 // Classe qui se charge uniquement d'initialiser les autres classe (tous les objets 'chiants' de notre Espace Membre)
 class App{
     

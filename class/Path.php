@@ -1,5 +1,7 @@
 <?php
 
+namespace jeremie;
+
 class Path{
 
     // Titre du template (balise title dynamique, voir contructeur de la classe)

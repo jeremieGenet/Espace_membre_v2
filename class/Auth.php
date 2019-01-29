@@ -1,5 +1,7 @@
 <?php
 
+namespace jeremie;
+
 // GESTION DE L'AUTHENTIFICATION
 class Auth{
 

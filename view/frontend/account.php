@@ -47,7 +47,20 @@ if(!empty($_POST)){
 
     <hr class="bg-secondary">
     
-    <h2 class="text-center my-3">Bonjour <?= $_SESSION['infoUser']->username; ?> </h2> 
+    <h2 class="text-center my-3">Bonjour <?= $_SESSION['infoUser']->username; ?> </h2>
+
+
+    <!-- AMELIORATION DE LA PAGE ACCOUNT 
+    
+    ON VEUT : 
+    
+    - un tableau qui récap les info utilisateur:
+        avec username, adresse email, date d'enregistrement sur le site, avatar utilisé
+    - dans ce tableau aussi:
+        un lien pour accéder au formulaire de changement de mot de passe
+        un lien pour accéder à la possibilité d'ajouter un avatar (qui sera visible dans la nav-bar)
+     -->
+
     
     <!-- FORMULAIRE DE CHANGEMENT DE MOT DE PASSE -->
     <form action="" method="POST">

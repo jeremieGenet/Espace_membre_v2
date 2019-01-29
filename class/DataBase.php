@@ -1,5 +1,9 @@
 <?php
 
+namespace jeremie;
+
+use PDO; // IMPORTANT (comme on a un namespace, il faut déclarer l'utilisation de PDO (classe native de php))
+
 class DataBase{
 
     private $pdo;
