@@ -7,24 +7,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-        <?php
-            /*
-            $paths = [
-                $title,
-                $style_bootstrap, 
-                $fontawesome_cdn, 
-                $monStyle, $linkHome, 
-                $linkLogin, $linkLogout, 
-                $linkRegister, $JsJquery, 
-                $JsPopper, 
-                $JsBootstrap
-            ];
-            */
-            //require 'inc/autoLoader.php';
-            //$path = new Path();
-
-        ?>
-
         <!-- TITRE DYNAMYQUE -->
         <!-- $path est un objet de la classe Path.php, instancié dans le controller  -->
         <title>

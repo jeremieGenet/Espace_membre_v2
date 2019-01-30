@@ -1,5 +1,7 @@
 <?php
 
+use jeremie\NumberManager; // UTILISATION DE LA METHODE DateFr() qui format les date au format fr
+
 /******************************************************************************************************/
 /*************** PAGE DE PRESENTATION DU COMPTE DE L'UTILISATEUR *************************************/
 /****************************************************************************************************/
@@ -47,7 +49,7 @@ if(!empty($_POST)){
 
     <hr class="bg-secondary">
     
-    <h2 class="text-center my-3">Bonjour <?= $_SESSION['infoUser']->username; ?> </h2>
+    <h2 class="text-center my-5">Bienvenue <?= $_SESSION['infoUser']->username; ?> </h2>
 
 
     <!-- AMELIORATION DE LA PAGE ACCOUNT 
@@ -60,6 +62,46 @@ if(!empty($_POST)){
         un lien pour accéder au formulaire de changement de mot de passe
         un lien pour accéder à la possibilité d'ajouter un avatar (qui sera visible dans la nav-bar)
      -->
+
+    <?php
+
+        
+
+    ?>
+
+    <table class="table table-hover">
+    <thead>
+        <!-- HEADER DU TABLEAU -->
+        <tr class="table-secondary">
+        <th>Votre adresse email</th>
+        <!-- Utilisation de la méthode maison dateFr() pour formater la date de la bdd au format fr (méthode de la classe NumberManager) -->
+        <th scope="col">Votre date d'inscription</th>
+        <th scope="col">Votre image de profil</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- BODY (INFORMATION UTILISATEUR) -->
+        <tr class="table-primary">
+        <td><?= $_SESSION['infoUser']->email ?></td>
+        <td><?= NumberManager::formatDateFr($_SESSION['infoUser']->confirmed_at); ?></td>
+        <td>Avatar vide</td>
+        </tr>
+
+        <!-- BODY (Liens pour déplier les formulaires) -->
+        <tr class="table-info">
+        <td>
+            <a href="" id="changePassword">Changer de mot de passe</a>
+        </td>
+        <td></td>
+        <td>
+            <a href="" id="avatar">Inclure/modifier sa photo de profil</a>
+        </td>
+        </tr>
+        
+    </tbody>
+    </table> 
+
+    <hr class="bg-secondary my-5">
 
     
     <!-- FORMULAIRE DE CHANGEMENT DE MOT DE PASSE -->
@@ -78,10 +120,29 @@ if(!empty($_POST)){
 
     </form>
 
+    <!-- http://randomuser.me/api/portraits/men/1.jpg -->
+    <!-- FORMULAIRE DE CREATION OU MODIFICATION D'AVATAR -->
+    <form action="" method="POST">
+
+        <div class="form-group">
+            <label for="">Ajouter une photo de profil</label>
+            <input type="text" name="avatar" class="form-control" placeholder="Entrer l'url de votre photo de profil">
+        </div>
+
+        <button type="submit" class="btn btn-primary ">Ajouter la photo de profil</button>
+
+    </form>
+
+    <!-- Script particulier pour les formulaires de la page account.php -->
+    <script src="js/js_espace_membre/account_formulaire.js"></script>
+
 <?php
 
 $content = ob_get_clean();
 
+
 require 'template.php';
+
+
 
 ?>

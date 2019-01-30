@@ -35,8 +35,8 @@ class Auth{
         // Sécurisation des champs avant d'enregister dans la bdd
         $username = htmlspecialchars($username);
         $email = htmlspecialchars($email);
-        $mdp = Str::hashPassword($mdp); // On crypte le mot de passe
-        $token = Str::createToken(60); // appel de la méthode (voir dans Str.php) qui crée un token de 60 caractères (60 passé en paramètre)
+        $mdp = NumberManager::hashPassword($mdp); // On crypte le mot de passe
+        $token = NumberManager::createToken(60); // appel de la méthode (voir dans Str.php) qui crée un token de 60 caractères (60 passé en paramètre)
 
         // On prépare une requête d'insersion dans la bdd de tous les champs
         $db->queryClass("INSERT INTO users SET username = ?, email = ?, mdp = ?, confirmation_token = ?" ,[$username, $email, $mdp, $token]) ;  

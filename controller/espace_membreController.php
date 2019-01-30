@@ -10,6 +10,8 @@ use jeremie\Path;
 use jeremie\Session;
 use jeremie\App;
 use jeremie\Validator;
+use jeremie\NumberManager;
+
 
 
 // On charge est on appel l'autoloader (qui va charger les classes utilisées)
@@ -158,7 +160,7 @@ function confirmUser(){
             POUR TESTER ENTRER DANS L'url : http://localhost/Espace_Membre3/index.php?espace_membre=confirm&id=91&token=6Z5SsFtR7BIb9XNNBm9Odz35aoRKWH8SvV2EpoiqFrE0LX9Uopo9A5ceIAnN
             (id=13 pour l'utilisateur nommé 'tingle' et comme confirmation_token: P2mZuDDkcYnoBG6bvABmg1xE95vEmg5jYCJMSSgHk3H6lMW5nXAcZSlqaCdy )
 
-            http://localhost/Espace_Membre3/index.php?espace_membre=confirm&id=91&token=6Z5SsFtR7BIb9XNNBm9Odz35aoRKWH8SvV2EpoiqFrE0LX9Uopo9A5ceIAnN
+            http://localhost/Espace_membre_v2/index.php?espace_membre=confirm&id=97&token=w6jwNcF76mlD4aiwRJ6PhGnfAzBSkXapQQktkumGRyMRcHiMVQ6KuvgnNYbu
             
     */
 
@@ -304,7 +306,7 @@ function resetPasswordUser(){
                     Session::getInstance()->setFlash('danger', "Votre mot de passe doit être le même que la confirmation de mot de passe !");
                 // Sinon on hash, insére le nouveau mot de passe (puis connexion et redirection)
                 }else{
-                    $mdp = Str::hashPassword($_POST['mdp']);
+                    $mdp = NumberManager::hashPassword($_POST['mdp']);
                     // On insère le nouveau mot de passe et on met à null les reset_token et reset_at (qui n'ont plus d'utilités)
                     $db->queryClass('UPDATE users SET mdp = ?, reset_at = NULL, reset_token = NULL WHERE id = ?', [$mdp, $_GET['id']]);
 
