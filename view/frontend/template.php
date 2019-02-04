@@ -37,7 +37,7 @@
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
                             <!--<a class="nav-link" href="index.php">Accueil <span class="sr-only">(current)</span></a>-->
-                            <a class="nav-link" href="<?= $path->getLinkHome() ?>">Accueil <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="<?= $path->getLinkHome() ?>">Accueil</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
@@ -48,9 +48,11 @@
                                     Déconnexion
                                 </a> 
                             </li>
+                            <!-- Avatar et Nom de l'utilisateur -->
                             <li class="nav-item">
-                                <!-- Nom de l'utilisateur -->
-                                <a href="" class="nav-link bg-success">
+                                <!-- Lien vers la page de compte utilisateur -->
+                                <a href="<?= $path->getLinkAccount() ?>" class="nav-link bg-success">
+                                    <img src="<?= $_SESSION['infoUser']->avatar ?>" class="avatar-mini" alt="avatar">
                                     <?= $_SESSION['infoUser']->username ?> est connecté !
                                 </a>  
                             </li>
@@ -74,6 +76,7 @@
 
         <!-- Debug session utilisateur (affichage) -->
         <?php 
+            /*
             if(isset($_SESSION)){
                 var_dump($_SESSION);
             }
@@ -83,6 +86,7 @@
             if(isset($_SESSION['infoUser'])){
                 var_dump($_SESSION['infoUser']);
             }
+            */
         ?>
 
         <!-- CONTENU DU SITE -->

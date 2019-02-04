@@ -1,4 +1,5 @@
 <?php
+
 // INDICATION DE CHEMIN BRACKET : http://localhost/Cours_POO_php_Architecture_MVC/7.Exercice_MVC
 
 /*
@@ -8,6 +9,7 @@
 
 
 require('controller/espace_membreController.php'); // Contient les fonctions utilisées ici
+
 
 if(isset($_GET['espace_membre'])){
     
@@ -38,11 +40,26 @@ if(isset($_GET['espace_membre'])){
         // POUR TESTER :
         // http://localhost/Espace_membre_v2/index.php?espace_membre=confirm&id=95&token=UoVML8iqtOnlBdSzpwcny1q2xNFOWObWBdp5lnx7ULAd0ERH1MZituOHp3Pn
         
-    // GESTION DU COMPTE DE L'UTILISATEUR  (formulaire de changement de mot de passe et +++++++++++++++++++ à venir)
+    // GESTION DU COMPTE DE L'UTILISATEUR  (formulaire de changement de mot de passe et d'ajout/modification d'avatar)
     }elseif($_GET['espace_membre'] == 'account'){
 
+        // Si le formulaire n'est pas vide alors...
         if(!empty($_POST)){
-            accountUser();
+
+            // Si on est dans le formulaire de modification de password alors...
+            if(isset($_POST['password'])){
+
+                // Traitement du changement de mot de passe
+                accountPasswordUser();
+
+            // Sinon on est dans le formulaire avatar alors...
+            }elseif(isset($_POST['avatar'])){
+
+                // Traitement de l'avatar
+                accountAvatarUser();
+                
+            }
+            //accountPasswordUser();
         }
         displayAccount();
 

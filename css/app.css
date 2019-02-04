@@ -1,0 +1,13 @@
+/* Style de la photo d'avatar du propriétaire de l'annonce, ou de l'utilisateur connecté */
+.avatar{
+    max-width: 64px;
+    max-height: 64px;
+    border-radius: 32px;
+}
+
+/* Style de la photo d'avatar de l'utilisateur lorsqu'il est connecté (dans la nav bar)*/
+.avatar-mini{
+    max-width: 30px;
+    max-height: 30px;
+    border-radius: 15px;
+}

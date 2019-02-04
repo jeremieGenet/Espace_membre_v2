@@ -5,7 +5,7 @@ namespace jeremie;
 class Autoloader{
 
     // Fonction qui appelle la méthode "autoload()" dans la classe Autoloader (__CLASS__ est une super constante de php qui récup le nom de la classe courante soit ici 'Autoloader')
-    static function register(){
+    static function loadClass(){
         /*
             EXPLICATION des paramètres de spl_autoloader_register() :
 

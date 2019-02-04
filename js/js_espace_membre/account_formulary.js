@@ -61,10 +61,9 @@ if(lienPassword.addEventListener('click', function(event) {
         inputPass_confirm = initHtml("input", "", "", "", "mdp2", "password", "Confirmation de mot de passe");
         inputPass_confirm.classList.add("form-control");
 
-        buttonPass = initHtml("button", "", "Enregistrer les modifications", "", "", "submit");
+        buttonPass = initHtml("button", "", "Enregistrer les modifications", "", "buttonPassword", "submit");
         buttonPass.classList.add("btn");
         buttonPass.classList.add("btn-primary");
-        buttonPass.style.marginTop = "20px";
 
         insert(divPass, labelPass);
         insert(divPass, inputPass);
@@ -73,8 +72,8 @@ if(lienPassword.addEventListener('click', function(event) {
 
         insert(divPass_confirm, labelPass_confirm);
         insert(divPass_confirm, inputPass_confirm);
-        insert(divPass_confirm, buttonPass);
         insert(formPass , divPass_confirm);
+        insert(formPass, buttonPass);
         
         formulary = getEltById("formulary");
         insert(formulary, formPass);
@@ -114,6 +113,7 @@ if(lienPassword.addEventListener('click', function(event) {
 
         const buttonAvatar = document.createElement("button");
         buttonAvatar.type = "submit";
+        buttonAvatar.name = "buttonAvatar";
         buttonAvatar.classList.add("btn");
         buttonAvatar.classList.add("btn-primary");
         buttonAvatar.textContent = "Ajouter/modifier ma photo de profil";

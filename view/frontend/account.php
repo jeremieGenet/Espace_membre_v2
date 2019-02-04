@@ -66,7 +66,7 @@ use jeremie\NumberManager; // UTILISATION DE LA METHODE formatDateFr() qui forma
                 <input type="password" name="mdp2" class="form-control" placeholder="Confirmation du mot de passe">
             </div>
 
-            <button type="submit" class="btn btn-primary ">Enregistrer les modifications</button>
+            <button type="submit" name="password" class="btn btn-primary ">Enregistrer les modifications</button>
 
         </form>
         -->
@@ -84,7 +84,7 @@ use jeremie\NumberManager; // UTILISATION DE LA METHODE formatDateFr() qui forma
                 <input type="text" name="avatar" class="form-control" placeholder="Entrer l'url de votre photo de profil">
             </div>
 
-            <button type="submit" class="btn btn-primary ">Ajouter la photo de profil</button>
+            <button type="submit" name="avatar" class="btn btn-primary ">Ajouter la photo de profil</button>
 
         </form>
         -->

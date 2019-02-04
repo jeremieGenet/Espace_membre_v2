@@ -7,11 +7,13 @@ class Validator{
     private $data; // $data représentera les données réçues (soit '$_POST' pour un formulaire par exemple)
     private $errors = []; // représentera le tableau des erreurs (vérification des champs du formulaire)
     
+
     public function __construct($data)
     {
         $this->data = $data;
     }
 
+    
     // Permet de vérifier si le le champ ($field) existe bien
     private function getField($field){
         // Si le champ ($field) n'existe pas on retourne null, sinon on retourne le champ 

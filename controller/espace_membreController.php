@@ -4,6 +4,7 @@
     Fichier appelé par le routeur (index.php)
 */
 
+
 // On déclare nos classes dans leurs namespace
 use jeremie\Autoloader;
 use jeremie\Path;
@@ -16,7 +17,7 @@ use jeremie\NumberManager;
 
 // On charge est on appel l'autoloader (qui va charger les classes utilisées)
 require 'class/Autoloader.php';
-Autoloader::register();
+Autoloader::loadClass();
 
 
 // On crée une nouvelle session
@@ -183,6 +184,7 @@ function confirmUser(){
 
 }
 
+// Affiche la page account (ET RESTRICT L'ACCES SI ON EST PAS CONNECTE)
 function displayAccount(){
     App::getAuth()->restrict(); // Permet de ne pas authoriser l'accès à account si personne n'est connecté
     $path = new Path("Mon compte"); // On instancie Path.php avec en param le titre du template (balise title dynamique)
@@ -190,45 +192,86 @@ function displayAccount(){
 }
 
 // Affiche la page de compte de l'utilisateur connecté et lui permet d'y modifier son mot de passe
-function accountUser(){
+function accountPasswordUser(){
     
-    //require_once 'inc/autoLoader.php'; // Permet de charger les classe utilisées dans ce dossier
+    // Connexion à la bdd (getDataBase est une méthode statique) et permet l'utilisation de la méthode queryClass() quant on fera l'update du mdp
+    $db = App::getDataBase(); 
 
-    $db = App::getDataBase(); // Connexion à la bdd (getDataBase est une méthode statique) et permet l'utilisation de la méthode queryClass() quant on fera l'update du mdp
 
-    // On instancie la class Auth.php (qui permet la gestion de l'authentification) avec la méthode getAuth() de la classe App.php (qui se charge elle-même d'instancier les autres classe)
-    // et on lui applique la méthode restrict() de la classe Auth.php qui permet que s'il personne n'est connecté alors on refuse l'accès à account.php avec un message flash
-
-    /************** BUG (MEME NON CONNECTE ON PEUT ARRIVER SUR LA PAGE ACCOUNT *******************************/
-    //App::getAuth()->restrict();
-
-    
     // VERIFICATIONS LORS DE LA SOUMISSION DU FORMULAIRE
-    //if(!empty($_POST)){
+    // Si le champ mdp est vide alors...
+    if(empty($_POST['mdp'])){
+        $_SESSION['flash']['warning'] = "Il faut remplir le mot de passe !";
+
+    // Si les 2 mots de passes sont différents (le nouveau et sa confirmation) alors...
+    }elseif($_POST['mdp'] != $_POST['mdp2']){
+        var_dump($_POST['mdp']);
+        die();
+        $_SESSION['flash']['danger'] = "Les mots de passes ne correspondent pas !";
+        displayAccount(); // On affiche la page account (et restrict l'accès)
+
+    // Sinon on fait la modif dans la bdd
+    }else{
+        $user_id = $_SESSION['infoUser']->id; // On récup l'id de l'utilisateur connecté
+        $mdp = password_hash($_POST['mdp'], PASSWORD_BCRYPT); // On hash le nouveau mot de passe
+        // UPDATE du mot de passe dans la bdd
+        $req = $db->queryClass('UPDATE users SET mdp = ? WHERE id = ?', [$mdp, $user_id]);
+
+        $_SESSION['flash']['success'] = "Votre mot de passe à bien été mis à jour !";
+        displayAccount(); // On affiche la page account (et restrict l'accès)
+    }
     
-        if(empty($_POST['mdp'])){
+}
 
-            $_SESSION['flash']['warning'] = "Il faut remplir le mot de passe !";
-        // Si les 2 mots de passes sont différents (le nouveau et sa confirmation) alors...
-        }elseif($_POST['mdp'] != $_POST['mdp2']){
-            $_SESSION['flash']['danger'] = "Les mots de passes ne correspondent pas !";
-            displayAccount(); // On affiche la page account
+/*
+// Vérifie si la chaîne ressemble à une URL
 
-        // Sinon on fait la modif dans la bdd
-        }else{
-            $user_id = $_SESSION['infoUser']->id; // On récup l'id de l'utilisateur connecté
-            $mdp = password_hash($_POST['mdp'], PASSWORD_BCRYPT); // On hash le nouveau mot de passe
-            // UPDATE du mot de passe dans la bdd
-            $req = $db->queryClass('UPDATE users SET mdp = ? WHERE id = ?', [$mdp, $user_id]);
+$url = 'http://www.infowebmaster.fr/';
+if (filter_var($url, FILTER_VALIDATE_URL)) {
+    echo 'Cette URL est correct.';
+} else {
+    echo 'Cette URL a un format non adapté.';
+}
+}
 
-            $_SESSION['flash']['success'] = "votre mot de passe à bien été mis à jour !";
-            displayAccount(); // On affiche la page account
-        }
-    
-    //}
-    //require('view/frontend/account.php');
-    
+$req = $bdd->prepare('INSERT INTO membres (pseudo, pass, email, date_inscription) VALUES( ?, ?, ?, NOW() )'); 
+                                        $req->execute(array(
+                                                            $pseudo,
+                                                            $pass,
+                                                            $email,                                    
+                                                            ));     
 
+*/
+
+function accountAvatarUser(){
+
+    // Connexion à la bdd (getDataBase est une méthode statique) et permet l'utilisation de la méthode queryClass() quant on fera l'update du mdp
+    $db = App::getDataBase();
+
+    // VERIFICATIONS LORS DE LA SOUMISSION DU FORMULAIRE
+    // Si le champ avatar est vide alors...
+    if(empty($_POST['avatar'])){
+
+        $_SESSION['flash']['warning'] = "Il faut remplir l'url de votre photo de profil !";
+
+    // Si l'url passée n'est pas ok alors...
+    }elseif(!filter_var($_POST['avatar'], FILTER_VALIDATE_URL)){
+
+        $_SESSION['flash']['warning'] = "L'url n'est pas valide !";
+    // Sinon on fait la modif dans la bdd
+    }else{
+        $user_id = $_SESSION['infoUser']->id; // On récup l'id de l'utilisateur connecté
+        //$mdp = password_hash($_POST['mdp'], PASSWORD_BCRYPT); // On hash le nouveau mot de passe
+        // UPDATE du mot de passe dans la bdd
+        $avatar = $_POST['avatar'];
+
+        var_dump($avatar);
+        //die();
+        $req = $db->queryClass('UPDATE users SET avatar = ? WHERE id = ?', [$avatar, $user_id]);
+
+        $_SESSION['flash']['success'] = "Votre photo de profil à bien été enregistrée !";
+        displayAccount(); // On affiche la page account (et restrict l'accès)
+    }
 }
 
 // Déconnecte un utilisateur connecté

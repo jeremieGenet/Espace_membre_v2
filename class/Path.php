@@ -17,6 +17,7 @@ class Path{
     private $linkRegister = "index.php?espace_membre=register";
     private $linkLogin = "index.php?espace_membre=login";
     private $linkLogout = "index.php?espace_membre=logout";
+    private $linkAccount = "index.php?espace_membre=account";
 
     // Les 3 attributs suivants servent au fonctionnement de bootstrap
     private $jsJquery = "js/jquery.min.js";
@@ -61,6 +62,10 @@ class Path{
 
     public function getLinkLogout(){
         return $this->linkLogout;
+    }
+
+    public function getLinkAccount(){
+        return $this->linkAccount;
     }
 
     public function getJsJquery(){

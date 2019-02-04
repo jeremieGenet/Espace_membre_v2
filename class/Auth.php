@@ -20,6 +20,7 @@ class Auth{
         // On fusionne le tableau $options_msg qui est un attribut de la classe avec le tableau $options qui est le param2 du constructeur
         $this->options_msg = array_merge($this->options_msg, $options);
     }
+    
 
     /**
      * Permet la gestion de l'authentification, et l'insersion dans la bdd des informations que l'utilisateur entre dans le formulaire d'enregistrement (register.php)
