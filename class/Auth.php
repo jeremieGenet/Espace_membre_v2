@@ -207,7 +207,7 @@ class Auth{
 
 
     public function remember($db, $user_id){
-        $remember_token = Str::createToken(250);  // Crétion d'un token de 250 caractères (250 passé en paramètre)
+        $remember_token = NumberManager::createToken(250);  // Crétion d'un token de 250 caractères (250 passé en paramètre)
         $db->queryClass('UPDATE users SET remember_token = ? WHERE id = ?', [$remember_token, $user_id]);
 
         /***************************************************************/
@@ -237,7 +237,7 @@ class Auth{
         if($user){
 
             // On génère un nouveau token 
-            $reset_token = Str::createToken(60);
+            $reset_token = NumberManager::createToken(60);
     
             //  On fait une requête pour insérer dans la bdd un reset_token et sa date 
             $user = $db->queryClass('UPDATE users SET reset_token = ?, reset_at = NOW() WHERE id = ?', [$reset_token, $user->id]);
