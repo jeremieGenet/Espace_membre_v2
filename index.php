@@ -1,14 +1,13 @@
 <?php
-
-// INDICATION DE CHEMIN BRACKET : http://localhost/Cours_POO_php_Architecture_MVC/7.Exercice_MVC
+// INDICATION DE CHEMIN BRACKET : http://http://localhost/Espace_membre_v2/index.php
 
 /*
     ROUTEUR qui va diriger vers la page voulue (en fonction des lien de redirection des différentes pages)
     Bdd utilisée : test, et Tables utilisée : posts et comments
 */
 
-
-require('controller/espace_membreController.php'); // Contient les fonctions utilisées ici
+require('controller/espaceMembreController.php'); // Contient les fonctions utilisées pour l'espace membre
+require('controller/blogController.php'); // Contient les fonctions utilisées pour le blog
 
 
 if(isset($_GET['espace_membre'])){
@@ -90,12 +89,90 @@ if(isset($_GET['espace_membre'])){
         //
         logoutUser();
     }
+
+
+
+
+}elseif(isset($_GET['blog'])){
+
+    if($_GET['blog'] == 'listPosts'){
+        // Récupération et affichage des posts (billets),  (function listePosts() du fichier blogController.php)
+        listPosts(); 
+
+    // Sinon si la variable action vaut 'post' alors...
+    }elseif($_GET['blog'] == 'post'){
+        // Si il y a dans l'url un id et qu'il est supérieur à 0 alors...
+        if (isset($_GET['id']) && $_GET['id'] > 0){
+            post(); // Affichage du post et des ses commentaires (function post() du fichier controller.php)
+        }
+        else{
+            throw new Exception('Aucun identifiant de billet envoyé');
+        }
+    // Sinon si la variable action vaut addComment alors...
+    }elseif($_GET['blog'] == 'addComment'){
+        // Si il y a dans l'url un id (id billet) supérieur à 0 alors...
+        if(isset($_GET['id']) && $_GET['id'] > 0){
+            // Si l'auteur et le commentaire (du formulaire) on bien été envoyés alors...
+            
+            //var_dump('le commentaire c\'est : ' . $_POST['comment']);
+            
+            if(!empty($_POST['author']) && !empty($_POST['comment'])){
+                addComment($_GET['id'], $_POST['author'], $_POST['comment']); // On insére dans la bdd le commentaire (function addComment() du fichier controller.php)
+            }else{
+                throw new Exception('Tous les champs ne sont pas remplis !');
+            }
+        }else{
+            //echo 'Erreur : aucun identifiant de billet envoyé';
+            throw new Exception('Aucun identifiant de billet envoyé');
+        }
+    }elseif($_GET['blog'] == 'editComment'){
+        
+        // Si il y a dans l'url un id (id billet) et supérieur à 0 alors...
+        if(isset($_GET['id']) && $_GET['id'] > 0){
+            // Si l'auteur et le commentaire (du formulaire) on bien été envoyés alors...
+            post2(); // Affichage du commentaire à modifier et du formulaire pour réécrire le commentaire
+            
+
+            //var_dump($_GET['id']); // Affiche l'id du commentaire à modifier
+            //var_dump($_POST['commentModif']); // Affiche bien le commentaire modifié de l'utilisateur
+            
+            // Si on soumet le formulaire (appuie sur le bouton submit) alors...
+            if(isset($_POST['submit'])){
+                if(!empty($_POST['commentModif'])){
+
+                    edit($_GET['id'], $_POST['commentModif']); // On modifie dans la bdd le commentaire (function editComment() du fichier controller.php)
+                }else{
+                    throw new Exception('Tous les champs ne sont pas remplis !!');
+                }
+                
+            }
+            
+        }else{
+            //echo 'Erreur : aucun identifiant de billet envoyé';
+            throw new Exception('Aucun identifiant de billet envoyé');
+        }
+        
+    }
+    /*
+    echo "on est bien? ";
+    displayBlog();
+    */
+
 }else{
     // Si il n'y a pas de variable dans l'url on affiche la page d'accueil
     home();
 }
+    /*
+if(isset($_GET['blog'])){
 
+    echo "on est bien? ";
+    displayBlog();
 
+}else{
+    // Si il n'y a pas de variable dans l'url on affiche la page d'accueil
+    //home();
+}
+*/
 
 
 

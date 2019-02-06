@@ -23,7 +23,7 @@ function insert(parent, enfant){
 function getEltById(elt){
     return document.getElementById(elt);
 }
-    
+  
 
 // On récup les liens via leurs id
 const lienPassword = document.getElementById('changePassword'); // On récupère l'élément sur lequel on veut détecter le clic

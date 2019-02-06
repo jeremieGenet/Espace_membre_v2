@@ -4,7 +4,6 @@
     Fichier appelé par le routeur (index.php)
 */
 
-
 // On déclare nos classes dans leurs namespace
 use jeremie\Autoloader;
 use jeremie\Path;
@@ -13,12 +12,9 @@ use jeremie\App;
 use jeremie\Validator;
 use jeremie\NumberManager;
 
-
-
 // On charge est on appel l'autoloader (qui va charger les classes utilisées)
-require 'class/Autoloader.php';
+require_once 'class/Autoloader.php';
 Autoloader::loadClass();
-
 
 // On crée une nouvelle session
 Session::getInstance();
@@ -33,7 +29,7 @@ function home(){
 // Affiche le formulaire d'enregistrement d'un nouvel utilisateur
 function displayRegister(){
     $path = new Path("S'enregister"); // On instancie Path.php avec en param le titre du template (balise title dynamique)
-    require('view/frontend/register.php');
+    require('view/frontend/espace_membre/register.php');
 }
 
 // Gère l'enregistrement d'un utilisateur
@@ -106,7 +102,7 @@ function registerUser(){
 // Affiche le formulaire de connexion utilisateur
 function displayLogin(){
     $path = new Path("Se connecter"); // On instancie Path.php avec en param le titre du template (balise title dynamique)
-    require('view/frontend/login.php');
+    require('view/frontend/espace_membre/login.php');
 }
 
 // Gère la connexion et renvoie la page de connexion
@@ -141,7 +137,7 @@ function loginUser(){
         }
 
     }
-    require('view/frontend/login.php');
+    require('view/frontend/espace_membre/login.php');
 
 }
 
@@ -188,7 +184,7 @@ function confirmUser(){
 function displayAccount(){
     App::getAuth()->restrict(); // Permet de ne pas authoriser l'accès à account si personne n'est connecté
     $path = new Path("Mon compte"); // On instancie Path.php avec en param le titre du template (balise title dynamique)
-    require('view/frontend/account.php');
+    require('view/frontend/espace_membre/account.php');
 }
 
 // Affiche la page de compte de l'utilisateur connecté et lui permet d'y modifier son mot de passe
@@ -223,25 +219,6 @@ function accountPasswordUser(){
     
 }
 
-/*
-// Vérifie si la chaîne ressemble à une URL
-
-$url = 'http://www.infowebmaster.fr/';
-if (filter_var($url, FILTER_VALIDATE_URL)) {
-    echo 'Cette URL est correct.';
-} else {
-    echo 'Cette URL a un format non adapté.';
-}
-}
-
-$req = $bdd->prepare('INSERT INTO membres (pseudo, pass, email, date_inscription) VALUES( ?, ?, ?, NOW() )'); 
-                                        $req->execute(array(
-                                                            $pseudo,
-                                                            $pass,
-                                                            $email,                                    
-                                                            ));     
-
-*/
 
 function accountAvatarUser(){
 
@@ -292,7 +269,7 @@ function logoutUser(){
 
 function displayForgetPassword(){
     $path = new Path("Mot de passe oublié ?"); // On instancie Path.php avec en param le titre du template (balise title dynamique)
-    require('view/frontend/forget.php');
+    require('view/frontend/espace_membre/forget.php');
 }
 
 // Permet de faire une demande de mot de passe oublié (envoie d'email avec token)
@@ -322,7 +299,7 @@ function forgetPasswordUser(){
 
 function displayResetPassword(){
     $path = new Path("Réinitialiser son mot de passe ?"); // On instancie Path.php avec en param le titre du template (balise title dynamique)
-    require('view/frontend/reset.php');
+    require('view/frontend/espace_membre/reset.php');
 }
 
 // Permet de réinitialiser le mot de passe d'un utilisateur connecté

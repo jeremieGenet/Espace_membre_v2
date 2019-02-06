@@ -27,51 +27,54 @@
 
         <!-- HEADER DU SITE -->
         <header>
+            
             <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
                 <a class="navbar-brand" href="#">Mon Site</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
                             <!--<a class="nav-link" href="index.php">Accueil <span class="sr-only">(current)</span></a>-->
-                            <a class="nav-link" href="<?= $path->getLinkHome() ?>">Accueil</a>
+                            <a class="nav-link" href="<?= $path->getHomeLink() ?>">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <!--<a class="nav-link" href="index.php">Accueil <span class="sr-only">(current)</span></a>-->
+                            <a class="nav-link" href="<?= $path->getBlogLink() ?>">Blog</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
                         <!-- Si un utilisateur est connecté alors... -->
                         <?php if(isset($_SESSION['infoUser'])): ?>
                             <li class="nav-item">
-                                <a href="<?= $path->getLinkLogout() ?>" class="nav-link">
+                                <a href="<?= $path->getLogoutLink() ?>" class="nav-link bg-secondary my-2">
                                     Déconnexion
                                 </a> 
                             </li>
                             <!-- Avatar et Nom de l'utilisateur -->
                             <li class="nav-item">
                                 <!-- Lien vers la page de compte utilisateur -->
-                                <a href="<?= $path->getLinkAccount() ?>" class="nav-link bg-success">
+                                <a href="<?= $path->getAccountLink() ?>" class="nav-link bg-success my-1 ">
                                     <img src="<?= $_SESSION['infoUser']->avatar ?>" class="avatar-mini" alt="avatar">
-                                    <?= $_SESSION['infoUser']->username ?> est connecté !
+                                    <?= $_SESSION['infoUser']->username ?>
                                 </a>  
                             </li>
                         <!-- sinon si l'utilisateur n'est pas connecté alors... -->
                         <?php else: ?>
                             <li class="nav-item">
-                                 <!--<a href="index.php?espace_membre=register" class="nav-link">Inscription</a>-->
-                                <a href="<?= $path->getLinkRegister() ?>" class="nav-link">Inscription</a>
+                                    <!--<a href="index.php?espace_membre=register" class="nav-link">Inscription</a>-->
+                                <a href="<?= $path->getRegisterLink() ?>" class="nav-link">Inscription</a>
                             </li>
                             <li class="nav-item">
-                                 <!--<a href="index.php?espace_membre=connect" class="nav-link">Connexion</a> -->
-                                <a href="<?= $path->getLinkLogin() ?>" class="nav-link">Connexion</a> 
+                                    <!--<a href="index.php?espace_membre=connect" class="nav-link">Connexion</a> -->
+                                <a href="<?= $path->getLoginLink() ?>" class="nav-link">Connexion</a> 
                             </li>
-                            
                         <?php endif; ?>
                     </ul>
-
                 </div>
             </nav>
+            
         </header>
 
         <!-- Debug session utilisateur (affichage) -->
@@ -112,18 +115,21 @@
             <!-- CONTENU DYNAMIQUE résultat des ob_start() / ob_get_clean(); -->
             <?= $content ?>
 
-        </div> <!-- Fin de div container -->
+        </div> <!-- Fin de div container -->    
 
+            <!-- FOOTER DE L'ENSEMBLE DES PAGES DE L'ESPACE MEMBRES -->
+            <footer class="mt-5 bg-primary py-5 text-center">
+                <p>Copyright Espace_Membres !</p>
+            </footer>
 
-        <!-- FOOTER DE L'ENSEMBLE DES PAGES DE L'ESPACE MEMBRES -->
-        <footer class="mt-5 bg-primary py-5 text-center">
-            <p>Copyright Espace_Membres !</p>
-        </footer>
-
+        
         <!-- Les 3 scripts suivants servent au fonctionnement de bootstrap (chemin dynamique)-->
-        <script src="<?= $path->jsJquery() ?>"></script>
-        <script src="<?= $path->jsPopper() ?>"></script>
-        <script src="<?= $path->jsBootstrap() ?>"></script>
+        <script src="<?= $path->getJsJquery() ?>"></script>
+        <script src="<?= $path->getJsPopper() ?>"></script>
+        <script src="<?= $path->getJsBootstrap() ?>"></script>
+        <script src="<?= $path->getCustomJs() ?>"></script>
+        
+
 
     </body>
 

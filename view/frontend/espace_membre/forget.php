@@ -60,6 +60,6 @@ if(!empty($_POST) && !empty($_POST['email'])){
 
 $content = ob_get_clean();
 
-require 'template.php';
+require 'view/frontend/template.php';
 
 ?>

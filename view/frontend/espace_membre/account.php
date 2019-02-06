@@ -90,12 +90,12 @@ use jeremie\NumberManager; // UTILISATION DE LA METHODE formatDateFr() qui forma
         -->
 
     <!-- Script particulier pour les formulaires de la page account.php -->
-    <script src="js/js_espace_membre/account_formulary.js"></script>
+    <script src="js/espace_membre/account_formulary.js"></script>
 
 <?php
 
 $content = ob_get_clean();
 
-require 'template.php';
+require 'view/frontend/template.php';
 
 ?>

@@ -93,6 +93,6 @@ if(!empty($_POST) && !empty($_POST['username'] && !empty($_POST['mdp']))){
 
 $content = ob_get_clean();
 
-require 'template.php';
+require 'view/frontend/template.php';
 
 ?>
